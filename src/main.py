@@ -9,16 +9,15 @@ sign_in(EMAIL, PASSWORD)
     
 preset_date_list, preset_slot_list = filter_user_booking_list(USER_BOOKING_LIST)
 future_date_list, _, _ = get_future_booking_list()
-date_to_find_list = np.setdiff1d(preset_date_list, future_date_list)
-booking_made_list = []
+date_to_find_array = np.setdiff1d(preset_date_list, future_date_list)
 
-for date_to_book in date_to_find_list:
+for date_to_book in date_to_find_array:
     
     driver.get(HOME_URL)
     is_exact_desired_slot_found = False
     slot_to_book_option_list = []
     
-    for desired_slot in preset_slot_list[np.where(date_to_find_list == date_to_book)[0][0]]:
+    for desired_slot in preset_slot_list[preset_date_list.index(date_to_book)]:
 
         for room_key in ROOM_PREFERENCE_LIST:
 
@@ -46,7 +45,4 @@ for date_to_book in date_to_find_list:
                 continue
 
         status = book_room(room_key, date_to_book, slot_to_book, BOOKING_DESCRIPTION)
-        booking_made_list.append([date_to_book, slot_to_book, room_key, status])
-        
-print(booking_made_list)
-driver.quit()
+        print([date_to_book, slot_to_book, room_key, status])

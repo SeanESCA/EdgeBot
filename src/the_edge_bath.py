@@ -63,13 +63,17 @@ def sign_in(email:str, password:str):
     password_field.send_keys(password)
     
     # Click submit button.
-    submit_button = driver.find_element(By.CSS_SELECTOR, '#login_form button[type="submit"]').click()
+    driver.find_element(By.CSS_SELECTOR, '#login_form button[type="submit"]').click()
     
     # Check if the login failed.
     if driver.find_elements(By.CLASS_NAME, ERROR_CLASS_NAME):
         
         driver.quit()
         raise Exception('Your email or password is incorrect. Please check your details in user_input.py')
+    
+    else:
+
+        WebDriverWait(driver, 15).until(EC.invisibility_of_element_located((By.ID, 'login_form')))
 
 def get_future_booking_list():
     '''
@@ -79,10 +83,10 @@ def get_future_booking_list():
     
     # Wait until table loads.
     loading_element = driver.find_element(By.CLASS_NAME, 'dataTables_empty')
-    WebDriverWait(driver,10).until(EC.staleness_of(loading_element))
+    WebDriverWait(driver, 20).until(EC.staleness_of(loading_element))
     
     # Filter out cancelled bookings.
-    status_element_list = driver.find_elements(By.CSS_SELECTOR, '#future .status_1')
+    status_element_list = driver.find_elements(By.CSS_SELECTOR, '#future td[class^="status"]')
     
     if status_element_list:
         
@@ -262,7 +266,7 @@ def book_room(room_key, date_to_book:date, slot_to_book: DateTimeRange, booking_
     next_button_list[3].click() 
     
     # Wait until the site gives an error or the final booking page is displayed.
-    WebDriverWait(driver, 10).until(EC.any_of(
+    WebDriverWait(driver, 20).until(EC.any_of(
         EC.visibility_of_element_located((By.CSS_SELECTOR, 'input[name="arrangement_description"]')),
         EC.visibility_of_element_located((By.CLASS_NAME, 'sweet-alert'))
     ))
@@ -280,5 +284,5 @@ def book_room(room_key, date_to_book:date, slot_to_book: DateTimeRange, booking_
 
     # Final submit button only appears on last page.
     driver.find_elements(By.CSS_SELECTOR, 'button[type="submit"]')[-1].click()
-    WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CLASS_NAME, 'confirm')))
+    WebDriverWait(driver, 15).until(EC.visibility_of_element_located((By.CLASS_NAME, 'confirm')))
     return True
