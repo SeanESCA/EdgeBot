@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.15.7",
+    "@mui/x-date-pickers": "^6.19.3",
+    "dayjs": "^1.11.10",
+    "react-select": "^5.8.0",
+    "react-sortable-hoc": "^2.0.0"
+  }
+}
