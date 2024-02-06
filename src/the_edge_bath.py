@@ -163,6 +163,10 @@ def get_taken_slot_list(room_key:str, date_to_book: date):
     
         apply_room_filter(room_key)
         apply_date_filter(date_to_book)
+        WebDriverWait(driver, 10).until(EC.any_of(
+            EC.presence_of_element_located((By.CSS_SELECTOR, '.jscroll > *')),
+            EC.visibility_of_element_located((By.CLASS_NAME, 'sorry_no_content_text'))
+        ))
     
         # Refreshing the page is the most consistent method to ensure that schedule has correctly rendered.
         driver.refresh()
