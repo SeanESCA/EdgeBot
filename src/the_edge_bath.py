@@ -148,12 +148,19 @@ def apply_date_filter(date_to_check:date):
         date_field.clear()
         date_field.send_keys(date_to_check.strftime('%d/%m/%Y'))
 
-timerange_to_datetimerange = lambda timerange: DateTimeRange.from_range_text(
-    timerange, 
-    separator=r' – ',
-    start_time_format='%H:%M', 
-    end_time_format='%H:%M'
-)
+def timerange_to_datetimerange(timerange_str): 
+    
+    time_range = DateTimeRange.from_range_text(
+        timerange_str, 
+        separator=r' – ',
+        start_time_format='%H:%M', 
+        end_time_format='%H:%M'
+    )
+    
+    start_datetime = datetime.combine(date.min, time_range.start_datetime.time())
+    end_datetime = datetime.combine(date.min, time_range.end_datetime.time())
+    
+    return DateTimeRange(start_datetime, end_datetime)
 
 def get_taken_slot_list(room_key:str, date_to_book: date):
     
@@ -192,8 +199,14 @@ def get_possible_slot_array(desired_slot, taken_slot_list, min_booking_length: t
 
     for taken_slot in taken_slot_list:
         
-        subtract_taken_slot_array_func = np.vectorize(lambda possible_slot: possible_slot.subtract(taken_slot))
-        possible_slot_array = subtract_taken_slot_array_func(possible_slot_array)
+        possible_slot_array = np.array([
+            possible_slot.subtract(taken_slot) for possible_slot in possible_slot_array
+        ])
+        
+        if possible_slot_array.size == 0:
+            
+            return []
+            
         possible_slot_array = np.concatenate(possible_slot_array)
     
     min_timedelta = max(MIN_SLOT_LENGTH, min_booking_length)
@@ -209,27 +222,31 @@ def get_slot_to_book(possible_slot_array, max_booking_length: timedelta):
     If the earliest slot is longer than max_duration, the function will return an interval of length
     max_duration with the same start time.
     '''
-    slot_timedelta_array = np.array([slot.timedelta for slot in possible_slot_array])
-    max_timedelta = min(
-        max_booking_length, 
-        max(slot_timedelta_array),
-        MAX_SLOT_LENGTH
-    )
-    filtered_slot_list = possible_slot_array[slot_timedelta_array >= max_timedelta]
+    
     slot_to_book = NO_BOOKING
     
-    if filtered_slot_list:
+    if possible_slot_array:
+        
+        slot_timedelta_array = np.array([slot.timedelta for slot in possible_slot_array])
+        max_timedelta = min(
+            max_booking_length, 
+            max(slot_timedelta_array),
+            MAX_SLOT_LENGTH
+        )
+        filtered_slot_list = possible_slot_array[slot_timedelta_array >= max_timedelta]
+    
+        if filtered_slot_list:
 
-        slot_to_book = filtered_slot_list[0]
+            slot_to_book = filtered_slot_list[0]
 
-        if slot_to_book.timedelta > max_timedelta:
+            if slot_to_book.timedelta > max_timedelta:
 
-            slot_to_book = DateTimeRange(
-                slot_to_book.start_datetime, 
-                slot_to_book.start_datetime + max_timedelta
-            )
+                slot_to_book = DateTimeRange(
+                    slot_to_book.start_datetime, 
+                    slot_to_book.start_datetime + max_timedelta
+                )
 
-    return slot_to_book 
+    return slot_to_book
     
 def max_datetimerange(datetimerange_list):
     

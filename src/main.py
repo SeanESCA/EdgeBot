@@ -21,12 +21,7 @@ for date_to_book in date_to_find_array:
 
         for room_key in ROOM_PREFERENCE_LIST:
 
-            taken_slot_list = get_taken_slot_list(room_key, date_to_book)
-            
-            if taken_slot_list == None:
-                
-                continue
-            
+            taken_slot_list = get_taken_slot_list(room_key, date_to_book)            
             possible_slot_array = get_possible_slot_array(desired_slot, taken_slot_list, MIN_BOOKING_LENGTH)
             slot_to_book = get_slot_to_book(possible_slot_array, MAX_BOOKING_LENGTH)
             if slot_to_book == desired_slot:

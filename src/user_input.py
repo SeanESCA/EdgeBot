@@ -5,26 +5,26 @@ from datetimerange import DateTimeRange
 # PRESET_BOOKING_LIST is ordered Mon - Sun.
 # Do not change the dates from 1900-01-01.
 # If you have multiple preferred slots in a day, list them from most to least preferred.
-NO_BOOKING = DateTimeRange('1900-01-01T00:00:00', '1900-01-01T00:00:00')
+NO_BOOKING = DateTimeRange('0001-01-01T00:00:00', '0001-01-01T00:00:00')
 USER_BOOKING_LIST = [
     [
         NO_BOOKING
     ],
     [
-        DateTimeRange('1900-01-01T09:00:00', '1900-01-01T11:00:00'),
-        DateTimeRange('1900-01-01T12:00:00', '1900-01-01T14:00:00')
+        DateTimeRange('0001-01-01T09:00:00', '0001-01-01T11:00:00'),
+        DateTimeRange('0001-01-01T12:00:00', '0001-01-01T14:00:00')
     ],
     [
-        DateTimeRange('1900-01-01T09:00:00', '1900-01-01T11:00:00')
+        DateTimeRange('0001-01-01T09:00:00', '0001-01-01T11:00:00')
     ],
     [
-        DateTimeRange('1900-01-01T09:00:00', '1900-01-01T11:00:00')
+        DateTimeRange('0001-01-01T09:00:00', '0001-01-01T11:00:00')
     ],
     [
         NO_BOOKING
     ],
     [
-        DateTimeRange('1900-01-01T09:00:00', '1900-01-01T11:00:00')
+        DateTimeRange('0001-01-01T09:00:00', '0001-01-01T11:00:00')
     ],
     [
         NO_BOOKING
