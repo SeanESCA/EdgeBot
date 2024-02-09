@@ -18,18 +18,6 @@ HISTORY_URL = f'{HOME_URL}/booking-history'
 ERROR_CLASS_NAME = 'sweet-alert'
 MIN_SLOT_LENGTH = timedelta(minutes=30)
 MAX_SLOT_LENGTH = timedelta(hours=2)
-
-# OPENING_HOURS_LIST is ordered Mon-Sun.
-OPENING_HOURS_LIST = [
-    DateTimeRange('1900-01-01T09:00:00', '1900-01-01T21:00:00'),
-    DateTimeRange('1900-01-01T09:00:00', '1900-01-01T21:00:00'),
-    DateTimeRange('1900-01-01T09:00:00', '1900-01-01T21:00:00'),
-    DateTimeRange('1900-01-01T09:00:00', '1900-01-01T21:00:00'),
-    DateTimeRange('1900-01-01T09:00:00', '1900-01-01T21:00:00'),
-    DateTimeRange('1900-01-01T10:00:00', '1900-01-01T20:00:00'),
-    DateTimeRange('1900-01-01T10:00:00', '1900-01-01T18:00:00'),
-]
-
 ROOM_DICT = {
     'room 1': 17,
     'room 2': 18,
@@ -82,8 +70,10 @@ def get_future_booking_list():
     driver.get(HISTORY_URL)
     
     # Wait until table loads.
-    loading_element = driver.find_element(By.CLASS_NAME, 'dataTables_empty')
-    WebDriverWait(driver, 20).until(EC.staleness_of(loading_element))
+    WebDriverWait(driver, 20).until(EC.any_of(
+        EC.presence_of_element_located((By.CSS_SELECTOR, '#future tbody > tr[role="row"]')),
+        EC.text_to_be_present_in_element((By.CSS_SELECTOR, '#future tbody'), 'No bookings found')
+    ))
     
     # Filter out cancelled bookings.
     status_element_list = driver.find_elements(By.CSS_SELECTOR, '#future td[class^="status"]')
