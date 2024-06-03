@@ -1,6 +1,6 @@
 from flask import Blueprint, request, redirect, render_template, url_for
-from EdgeBookingAppV1.app.TheEdgeTools import *
-from EdgeBookingAppV1.app.forms import QuickBookingForm
+from .events import socketio
+# from .tasks import *
 
 
 site = Blueprint('site', __name__)
@@ -10,20 +10,14 @@ def test():
 
     return render_template('test.html', scriptName='test.js')
 
-@site.route('/home', methods=['GET'])
+@site.route('/home', methods=['GET', 'POST'])
 def home():
 
-    weekFreeSlotDict = {}
+    update_week_free_slots.delay()
 
-    if sign_in(username, password):
+    return render_template('home.html', scriptName='home.js')
 
-        weekFreeSlotDict = summarise_week_free_slots()
-
-    return render_template('home.html', scriptName='home.js', weekFreeSlotDict=weekFreeSlotDict)
-
-@site.route('/booking-summary', methods=['POST'])
+@site.route('/booking-summary', methods=['GET', 'POST'])
 def summary():
-
-
 
     return render_template('summary.html')

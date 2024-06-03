@@ -1,0 +1,26 @@
+version: '3.10'
+
+services:
+  web:
+    build: '.'
+    ports:
+      - "5000:5000"
+    depends_on:
+      - rabbit
+
+  rabbit:
+    hostname: rabbit
+    image: "rabbitmq:3-management"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
+  simple_worker:
+    build: './app/celeryWorker'
+    user: nobody
+    depends_on:
+      - rabbit
+      - web

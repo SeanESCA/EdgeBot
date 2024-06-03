@@ -31,20 +31,45 @@
 
 {% endblock %}
 {% block content %}
-<div id="weekSummary">
-    {% for date, dataDict in weekFreeSlotsDict.items() %}
-    <div id="date.strftime()" class="daySummaryDiv">
-        <div>
-            <span></span>
-            <span></span>
-        </div> <!--Header-->
-        <div>
-            {% for roomStr, freeSlotList in dataDict.items() %}
-            <div> <!--Line for each room-->
-                <>
-            </div>
-            {% endfor %}
+<h1>Homepage</h1>
+<div id="header">
+    <div id="loadingBar">
+        <div id="loadingSegment1" class="currentLoadingSegment"></div>
+        <div id="loadingSegment2" class="inactiveLoadingSegment"></div>
+        <div id="loadingSegment3" class="inactiveLoadingSegment"></div>
+        <div id="loadingSegment4" class="inactiveLoadingSegment"></div>
+        <div id="loadingSegment5" class="inactiveLoadingSegment"></div>
+        <div id="loadingSegment6" class="inactiveLoadingSegment"></div>
+        <div id="loadingSegment7" class="inactiveLoadingSegment"></div>
+        <div id="loadingSegment8" class="inactiveLoadingSegment"></div>
     </div>
-    {% endfor %}
+
+    <div id="autobookerDiv">
+        <div>
+            <h1>Form</h1>
+        </div>
+        <div>
+            <form id="autobookerForm" method="POST" action="/booking_summary">
+                <div>
+                    <fieldset id="autobookerIndex"></fieldset>
+                </div>
+                <div>
+                    <p>The bookings above will be made when the countdown ends.</p>
+                </div>
+                <div>
+                    <h1 id="countdown"></h1>
+                </div>
+                <div>
+                    <button></button>
+                    <button type="submit">Proceed</button>
+                    <button></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="weekSummary">
+
 </div>
 {% endblock %}

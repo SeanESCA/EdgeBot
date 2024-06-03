@@ -1,0 +1,13 @@
+bs4
+celery
+datetime
+datetimerange
+flask
+flask_socketio
+flask_wtf
+numpy
+json
+selenium
+secrets
+time
+wtforms
