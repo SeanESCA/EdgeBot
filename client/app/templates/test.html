@@ -1,0 +1,43 @@
+{% extends 'layout.html' %}
+{% block css %}
+#loadingBar {
+    display:table-row;
+}
+
+#loadingBar > * {
+    display:table-cell;
+    width: 100px;
+    height: 10px;
+    border: 2px solid black;
+
+}
+
+.currentLoadingSegment {
+    background-color: blue;
+}
+
+
+.inactiveLoadingSegment {
+    background-color: red;
+}
+
+.completedLoadingSegment {
+    background-color: green;
+}
+
+{% endblock %}
+{% block content %}
+<h1>Homepage</h1>
+<div id="header">
+    <div id="loadingBar">
+        <div id="loadingSegment1" class="currentLoadingSegment"></div>
+        <div id="loadingSegment2" class="inactiveLoadingSegment"></div>
+        <div id="loadingSegment3" class="inactiveLoadingSegment"></div>
+        <div id="loadingSegment4" class="inactiveLoadingSegment"></div>
+        <div id="loadingSegment5" class="inactiveLoadingSegment"></div>
+        <div id="loadingSegment6" class="inactiveLoadingSegment"></div>
+        <div id="loadingSegment7" class="inactiveLoadingSegment"></div>
+        <div id="loadingSegment8" class="inactiveLoadingSegment"></div>
+    </div>
+</div>
+{% endblock %}

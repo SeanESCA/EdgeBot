@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}
+{% block css %}
+#autobookerDiv {
+    display:none;
+}
+
+#loadingBar {
+    display:table-row;
+}
+
+#loadingBar > * {
+    display:table-cell;
+    width: 100px;
+    height: 10px;
+    border: 2px solid black;
+
+}
+
+.currentLoadingSegment {
+    background-color: blue;
+}
+
+
+.inactiveLoadingSegment {
+    background-color: red;
+}
+
+.completedLoadingSegment {
+    background-color: green;
+}
+
+{% endblock %}
+{% block content %}
+<div id="weekSummary">
+    {% for date, dataDict in weekFreeSlotsDict.items() %}
+    <div id="date.strftime()" class="daySummaryDiv">
+        <div>
+            <span></span>
+            <span></span>
+        </div> <!--Header-->
+        <div>
+            {% for roomStr, freeSlotList in dataDict.items() %}
+            <div> <!--Line for each room-->
+                <>
+            </div>
+            {% endfor %}
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
