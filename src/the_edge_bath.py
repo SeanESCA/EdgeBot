@@ -240,7 +240,11 @@ def book_room(room_key, date_to_book:date, slot_to_book: DateTimeRange, booking_
     driver.get(BOOKING_URL)
     next_button_list = driver.find_elements(By.CSS_SELECTOR, 'button[type="submit"]')
 
-    # Choose Rehearsal(Solo).
+    # Select Individual Member Practice for booking type (default).
+    # driver.find_element(By.CSS_SELECTOR, f'input[value="38"]').click()
+    driver.find_element(By.LINK_TEXT, 'Next').click()
+
+    # Select Rehearsal (Solo) for booking purpose.
     driver.find_element(By.CSS_SELECTOR, f'input[value="30"]').click()
     driver.find_element(By.LINK_TEXT, 'Next').click()
 
